@@ -1,12 +1,10 @@
 package it.pagin.deeplay.reader;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.io.InputStream;
+import java.io.File;
 
 public class ReaderFactory {
 
-    public IReader getReader(final String readerName, @NotNull final InputStream inputStream) {
+    public IReader getReader(final String readerName, final File inputStream) {
         if ("LocalFileReader".equals(readerName)) {
             return new LocalFileReader(inputStream);
         }
