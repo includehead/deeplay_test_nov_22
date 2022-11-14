@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 public class Logic {
-    Logger logger = LoggerFactory.getLogger(Logic.class);
+    private final Logger logger = LoggerFactory.getLogger(Logic.class);
     private PropertiesModel properties;
 
     public List<Integer> performCalculations(final DataModel animals, final PropertiesModel properties) {
