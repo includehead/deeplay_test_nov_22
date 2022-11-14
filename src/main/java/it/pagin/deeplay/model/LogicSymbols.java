@@ -1,6 +1,7 @@
 package it.pagin.deeplay.model;
 
 public class LogicSymbols {
+    private final String negationSymbol;
     private final String negationSymbolRegex;
     private final String orSymbol;
     private final String orSymbolRegex;
@@ -10,9 +11,14 @@ public class LogicSymbols {
     public LogicSymbols(final String negationSymbol, final String orSymbol, final String andSymbol) {
         this.andSymbol = andSymbol;
         this.andSymbolRegex = "(.*)" + andSymbol + "(.*)";
+        this.negationSymbol = negationSymbol;
         this.negationSymbolRegex = "(.*)" + negationSymbol + "(.*)";
         this.orSymbol = orSymbol;
         this.orSymbolRegex = "(.*)" + orSymbol + "(.*)";
+    }
+
+    public String getNegationSymbol() {
+        return negationSymbol;
     }
 
     public String getNegationSymbolRegex() {

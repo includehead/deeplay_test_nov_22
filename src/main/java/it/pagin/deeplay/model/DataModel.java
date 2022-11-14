@@ -12,7 +12,9 @@ public class DataModel {
     public DataModel(List<String> rawData) {
         data = new ArrayList<>(rawData.size());
         for (String string : rawData) {
-            data.add(new HashSet<>(Arrays.asList(string.split(","))));
+            String[] splitStrings = string.split(",");
+            String[] trimmedStrings = Arrays.stream(splitStrings).map(String::trim).toArray(String[]::new);
+            data.add(new HashSet<>(List.of(trimmedStrings)));
         }
     }
 

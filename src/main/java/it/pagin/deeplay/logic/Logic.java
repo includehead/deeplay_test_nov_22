@@ -2,6 +2,7 @@ package it.pagin.deeplay.logic;
 
 import it.pagin.deeplay.model.DataModel;
 import it.pagin.deeplay.model.PropertiesModel;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +14,7 @@ public class Logic {
     private final Logger logger = LoggerFactory.getLogger(Logic.class);
     private PropertiesModel properties;
 
-    public List<Integer> performCalculations(final DataModel animals, final PropertiesModel properties) {
+    public List<Integer> performCalculations(final @NotNull DataModel animals, final @NotNull PropertiesModel properties) {
         this.properties = properties;
         final List<Integer> calculatedValues = new ArrayList<>();
         int count;
@@ -44,9 +45,12 @@ public class Logic {
     }
 
     private boolean isMatchRule(final Set<String> data, final String rule) {
+        if ("".equals(rule.trim())) {
+            return false;
+        }
         if (doesNotContainBinaryOperators(rule)) {
             if (rule.matches(properties.getLogicSymbols().getNegationSymbolRegex())) {
-                return !data.contains(rule);
+                return !data.contains(rule.replace(properties.getLogicSymbols().getNegationSymbol(), ""));
             }
             return data.contains(rule);
         }
@@ -58,7 +62,7 @@ public class Logic {
             String[] splitProps = rule.split(properties.getLogicSymbols().getOrSymbol(), 2);
             return or(data, splitProps[0].trim(), splitProps[1].trim());
         }
-        return false;
+        throw new RuntimeException("Some problem in logic symbols!");
     }
 
     private boolean doesNotContainBinaryOperators(final String string) {
