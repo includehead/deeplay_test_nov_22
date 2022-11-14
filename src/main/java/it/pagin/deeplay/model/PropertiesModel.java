@@ -4,34 +4,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PropertiesModel {
-    private final String negationSymbol;
-    private final String andSymbol;
-    private final String orSymbol;
+    private static final int NEGATION_SYMBOL_LINE_NUMBER = 0;
+    private static final int AND_SYMBOL_LINE_NUMBER = 1;
+    private static final int OR_SYMBOL_LINE_NUMBER = 2;
+    private static final int PROPERTIES_LINE_NUMBER = 3;
+
+    private final LogicSymbols symbols;
     private final List<String> propertiesList;
 
-    public PropertiesModel(final List<String> gottenProps) {
-        propertiesList = new ArrayList<>(gottenProps.size());
-        negationSymbol = gottenProps.get(0).strip();
-        andSymbol = gottenProps.get(1).strip();
-        orSymbol = gottenProps.get(2).strip();
-        for (int i = 3; i < gottenProps.size(); i++) {
-            propertiesList.add(gottenProps.get(i));
+    /**
+     * Avoid regex reserved symbols in logic operators
+     *
+     * @param propertiesList should contain negation symbol in first[0] string,
+     *                       and symbol in second[1], or symbol in third[2]
+     */
+    public PropertiesModel(final List<String> propertiesList) {
+        this.propertiesList = new ArrayList<>(propertiesList.size());
+        final String negationSymbol = propertiesList.get(NEGATION_SYMBOL_LINE_NUMBER).strip();
+        final String andSymbol = propertiesList.get(AND_SYMBOL_LINE_NUMBER).strip();
+        final String orSymbol = propertiesList.get(OR_SYMBOL_LINE_NUMBER).strip();
+        symbols = new LogicSymbols(negationSymbol, orSymbol, andSymbol);
+        for (int i = PROPERTIES_LINE_NUMBER; i < propertiesList.size(); i++) {
+            this.propertiesList.add(propertiesList.get(i));
         }
     }
 
-    public String getNegationSymbol() {
-        return negationSymbol;
+    public LogicSymbols getLogicSymbols() {
+        return symbols;
     }
 
     public List<String> getPropertiesList() {
         return propertiesList;
-    }
-
-    public String getAndSymbol() {
-        return andSymbol;
-    }
-
-    public String getOrSymbol() {
-        return orSymbol;
     }
 }
